@@ -20,6 +20,6 @@ Kajizukaは以下の機能をサポートしています:
 Only your browser ;)
 
 
-
+---
 Creative GP (C) 2018
 
