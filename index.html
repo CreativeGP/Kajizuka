@@ -22,17 +22,21 @@
                 <div id="features">
                     <a href="#features" class="topic"># 特徴</a>
                     <div class="row">
-                        <div class="col-sm-4 topic-panel">
+                        <div class="col-md-6 col-lg-3 topic-panel">
                             <lead><strong>汎用性</strong></lead>
                             <p>短期的な仕事から生涯をかけて達成したい長期的な目標までをしっかりとカバーすることができます。</p>
                         </div>
-                        <div class="col-sm-4 topic-panel">
+                        <div class="col-md-6 col-lg-3 topic-panel">
                             <lead><strong>静的</strong></lead>
                             <p>あなたの情報をサーバーに保存しないので安全です。全ての作業はあなたのブラウザ上で完結します。</p>
                         </div>
-                        <div class="col-sm-4 topic-panel">
+                        <div class="col-md-6 col-lg-3 topic-panel">
                             <lead><strong>共有可能</strong></lead>
                             <p>SNSに進捗を投稿したいと思った時にも簡単に共有することができます。</p>
+                        </div>
+                        <div class="col-md-6 col-lg-3 topic-panel">
+                            <lead><strong>フルキーボード操作可能</strong></lead>
+                            <p>キーボードで素早く操作することもできるので手軽に操作することができます。</p>
                         </div>
                     </div>
                 </div>
@@ -76,8 +80,16 @@
 
 
             <div class="mx-auto" style="width: 80%;">
-                <p class="text-center"><button type="button" class="btn btn-primary text-center">早速使ってみる</button></p>
+                <p class="text-center"><button type="button" class="btn btn-primary text-center" onclick="app();">早速使ってみる</button></p>
             </div>
+
+            <div id="content"></div>
+            <script src="https://unpkg.com/react@15/dist/react.js"></script>
+            <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/5.0.2/react-redux.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.min.js"></script>
+            <script type="text/babel" src="script/pages.js"></script>
 
             <hr>
             <h6>Creative GP (C) 2018</h6>

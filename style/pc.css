@@ -17,10 +17,11 @@
 .topic-panel {
     background-color: #eee;
     box-shadow: 2px 2px 2px gray;
+    margin: 5px 0;
 }
 
 .row {
-    margin: 10px auto;   
+    margin: 10px auto;
 }
 
 dl dt { font-size: 1.5em; }
