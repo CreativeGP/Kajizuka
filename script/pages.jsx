@@ -26,10 +26,24 @@ let clearCookies = () => {
     $.removeCookie('scene');
 };
 
+
+let loadSettings = () => {
+    settings.backgroundColor = $.cookie('settings-background-color');
+    settings.color = $.cookie('settings-color');
+    settings.userName = $.cookie('settings-name');
+    settings.userPassword = $.cookie('settings-password');
+};
+
 let saveSettings = () => {
     settings.backgroundColor = $('#settings-background-color').val();
     settings.color = $('#settings-contrast-color').val();
     settings.userName = $('#settings-name').val();
+    settings.userPassword = $('#settings-password').val();
+
+    $.cookie('settings-background-color', settings.backgroundColor, { expires: 365 * 80 });
+    $.cookie('settings-color', settings.color, { expires: 365 * 80 });
+    $.cookie('settings-name', settings.userName, { expires: 365 * 80 });
+    $.cookie('settings-password', settings.userPassword, { expires: 365 * 80 });
 };
 
 let timeline = () => {
@@ -61,7 +75,7 @@ let timeline = () => {
                         <p>文字色 : <input id="settings-contrast-color" name="" type="text" value="#000000"/></p>
                         <h3># ユーザー設定</h3>
                         <p>ユーザー名 : <input id="settings-name" name="" type="text" value=""/></p>
-                        <p>パスワード : <input id="settings-" name="" type="text" value="#000000"/></p>
+                        <p>パスワード : <input id="settings-password" name="" type="text" value="#000000"/></p>
                         <h3># Cookies</h3>
                         <p>KajizukaはCookieを利用して静的なアプローチでサービスを提供しています。
                             <b>Cookieには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
