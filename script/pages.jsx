@@ -33,6 +33,11 @@ let app_template = () => {
 let clearCookies = () => {
     $.removeCookie('visited');
     $.removeCookie('scene');
+    $.removeCookie('settings-background-color');
+    $.removeCookie('settings-color');
+    $.removeCookie('settings-name');
+    $.removeCookie('settings-password');
+    welcome();
 };
 
 
