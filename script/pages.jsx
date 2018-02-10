@@ -14,7 +14,13 @@ $(document).ready(() => {
         welcome();
 //        $.cookie('visited', true, { expires: 365 * 80 });
     } else {
-        timeline();
+        switch ($.cookie('scene')) {
+            case 'timeline': timeline(); break;
+            case 'setting': setting(); break;
+            case 'tasks': tasks(); break;
+            case 'subjects': subjects(); break;
+            case 'ideas': ideas(); break;
+        }
     }
 });
 
