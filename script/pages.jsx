@@ -83,6 +83,14 @@ let timeline = () => {
     setDisplayCookie('timeline');
 };
 
+let ideas = () => {
+    setDisplayCookie('ideas');
+};
+
+let subjects = () => {
+    setDisplayCookie('subjects');
+};
+
 let tasks = () => {
     setDisplayCookie('tasks');
     apply(
@@ -107,7 +115,6 @@ let tasks = () => {
                         <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
                         <button type="button" className="btn btn-link" onClick={setting}>設定</button>
                     </div>
-
                 </div>
             </div>
         </div>
