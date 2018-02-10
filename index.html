@@ -7,93 +7,20 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="style/pc.css" rel="stylesheet"/>
         <link href="style/mobile.css" rel="stylesheet"/>
+        <link rel="shortcut icon" href="/logo/kajizuka.ico" type="image/x-icon">
+        <link rel="icon" href="/logo/kajizuka.ico" type="image/x-icon">
     </head>
     <body>
-        <div class="mx-auto" style="width: 80%;">
-            <h1 id="logo" class="text-center">Kajizuka</h1>
-            <p><em>簡単に言うと高機能なタスク管理アプリです。
-                Kajizuka(舵柄)とは船の舵を回す時に握る舵棒のことでユーザーのタスクの舵取りとなるような
-                アプリになってほしいという願いが込められています。</em></p>
-            <p class="text-center"><button type="button" class="btn btn-primary text-center">早速使ってみる</button></p>
+        <div id="page">
         </div>
-
-        <div id="content" class="container">
-            <div class="row">
-                <div id="features">
-                    <a href="#features" class="topic"># 特徴</a>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 topic-panel">
-                            <lead><strong>汎用性</strong></lead>
-                            <p>短期的な仕事から生涯をかけて達成したい長期的な目標までをしっかりとカバーすることができます。</p>
-                        </div>
-                        <div class="col-md-6 col-lg-3 topic-panel">
-                            <lead><strong>静的</strong></lead>
-                            <p>あなたの情報をサーバーに保存しないので安全です。全ての作業はあなたのブラウザ上で完結します。</p>
-                        </div>
-                        <div class="col-md-6 col-lg-3 topic-panel">
-                            <lead><strong>共有可能</strong></lead>
-                            <p>SNSに進捗を投稿したいと思った時にも簡単に共有することができます。</p>
-                        </div>
-                        <div class="col-md-6 col-lg-3 topic-panel">
-                            <lead><strong>フルキーボード操作可能</strong></lead>
-                            <p>キーボードで素早く操作することもできるので手軽に操作することができます。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div id="how-to-use">
-                    <a href="#how-to-use" class="topic"># 使い方</a>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p>
-                                Kajizukaで管理できるタスクは3つに分けられています。
-                            </p>
-                            <dl>
-                                <dt>1, Task</dt>
-                                <dd>
-                                    <p>Taskとは最も基本的なタスク（その名の通り）で一日や一週間で終わるような仕事を書きます。<br>
-                                        完了期限や優先順位を設定することはできますが、Task同士で関連性をもたせることはできません。<br>
-                                        このような場合は後述するSubjectを使うべきでしょう。
-                                    </p>
-                                    <p>ex) 「Task; 昨日書いたコードのリファクタリング」 「Task; 〇〇さんの家に確認の電話」</p>
-                                </dd>
-                                <dt>2, Subject</dt>
-                                <dd>
-                                    <p>Subjectは大きなタスクです、大きさは決まっていませんが、Taskをまとめるもの、という認識が良いでしょう。</p>
-                                    <p>ex) 「Subject: 新事業」 「Task; 動画プレイヤーの開発」</p>
-                                </dd>
-                                <dt>3, Idea</dt>
-                                <dd>
-                                    <p>Ideaはあなたがやりたいなと思ったことをすぐ書き留めることができる場所です。<br>
-                                        大きな目標や新しい事業を書くというこ都に使うことができ、いざ手を付けする際にはSubjectに下ろしてきて作業することができます。
-                                    </p>
-                                    <p>ex) 「Idea... 地球制服」 「Idea... 原子コンピュータを作るんだ！」</p>
-                                </dd>
-                            </dl>
-                            <p>そして、この3つタスクをTimelineと言うページで管理することができます。
-                                使い方はかなりシンプルにしたつもりです。では、使ってみましょう！</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mx-auto" style="width: 80%;">
-                <p class="text-center"><button type="button" class="btn btn-primary text-center" onclick="app();">早速使ってみる</button></p>
-            </div>
-
-            <div id="content"></div>
-            <script src="https://unpkg.com/react@15/dist/react.js"></script>
-            <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/5.0.2/react-redux.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.min.js"></script>
-            <script type="text/babel" src="script/pages.js"></script>
-
-            <hr>
-            <h6>Creative GP (C) 2018</h6>
-
-        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script src="https://unpkg.com/react@15/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/5.0.2/react-redux.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.min.js"></script>
+        <script type="text/babel" src="script/pages.jsx"></script>
+        <script type="text/javascript" src="script/route.js"></script>
     </body>
 </html>
