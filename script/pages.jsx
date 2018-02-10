@@ -150,8 +150,8 @@ let setting = () => {
                     </div>
                     <div className="col-sm-9">
                         <h3># 外見</h3>
-                        <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue="{settings.backgroundColor}"/></p>
-                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue="{settings.color}"/></p>
+                        <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue={settings.backgroundColor}/></p>
+                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue={settings.color}/></p>
                         <h3># ユーザー設定</h3>
                         <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue={settings.userName} /></p>
                         <p>パスワード : <input id="settings-" name="" type="text" defaultValue={settings.userPassword} /></p>
