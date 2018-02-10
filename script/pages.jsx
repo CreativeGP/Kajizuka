@@ -31,9 +31,8 @@ let apply = (react) => {
     ReactDOM.render(react, page);
 };
 
-
 let app_template = () => {
-    setting();
+    tasks();
 };
 
 let clearCookies = () => {
@@ -72,8 +71,47 @@ let saveSettings = () => {
     $("#page").css('color', settings.color);
 };
 
+let dropdown_menu = () => {
+    if ($('#menu').css('display') == 'block') {
+        $('#menu').css('display', 'none');
+    } else {
+        $('#menu').css('display', 'block');
+    }
+};
+
 let timeline = () => {
     setDisplayCookie('timeline');
+};
+
+let tasks = () => {
+    setDisplayCookie('tasks');
+    apply(
+        <div id="task-temp">
+            <div className="content">
+                <div className="row">
+                    <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                        <a className="float-left">
+                            <h2>
+                                <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
+                                Kajizuka | Tasks
+                            </h2>
+                        </a>
+                        <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
+                    </div>
+                </div>
+                <div className="row">
+                    <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                        <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
+                        <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
+                        <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
+                        <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
+                        <button type="button" className="btn btn-link" onClick={setting}>設定</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
 };
 
 let setting = () => {
@@ -83,16 +121,27 @@ let setting = () => {
             <div className="content">
                 <div className="row">
                     <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <h2 onClick={timeline}>
-                            <img alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                            Kajizuka | 設定
-                        </h2>
+                        <a>
+                            <h2>
+                                <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
+                                Kajizuka | 設定
+                            </h2>
+                        </a>
                     </div>
+                </div>
+                <div className="row">
+                    <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                        <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
+                        <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
+                        <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
+                        <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
+                        <button type="button" className="btn btn-link" onClick={setting}>設定</button>
+                    </div>
+
                 </div>
                 <div className="row">
                     <div className="col-sm-3" style={{ backgroundColor: "#ccc8" }}>
                         <ul>
-                            Items
                             <li><a href="#appearance">外見</a></li>
                             <li><a href="#user">ユーザー設定</a></li>
                             <li><a href="#cookies">Cookie</a></li>
@@ -101,11 +150,11 @@ let setting = () => {
                     </div>
                     <div className="col-sm-9">
                         <h3># 外見</h3>
-                        <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue="#FFFFFF"/></p>
-                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue="#000000"/></p>
+                        <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue="{settings.backgroundColor}"/></p>
+                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue="{settings.color}"/></p>
                         <h3># ユーザー設定</h3>
-                        <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue=""/></p>
-                        <p>パスワード : <input id="settings-" name="" type="text" defaultValue="#000000"/></p>
+                        <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue={settings.userName} /></p>
+                        <p>パスワード : <input id="settings-" name="" type="text" defaultValue={settings.userPassword} /></p>
                         <h3># Cookies</h3>
                         <p>KajizukaはCookieを利用して静的なアプローチでサービスを提供しています。
                             <b>Cookieには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
