@@ -1,4 +1,13 @@
+let settings = {
+    backgroundColor: '#ffffff',
+    color: '#000000',
+    userPassword: '',
+    userName: ''
+};
+
 $(document).ready(() => {
+    loadSettings();
+
     // Check user's cookie
     if (!$.cookie("visited")) {
         // If it is new user, show setting.
@@ -32,6 +41,9 @@ let loadSettings = () => {
     settings.color = $.cookie('settings-color');
     settings.userName = $.cookie('settings-name');
     settings.userPassword = $.cookie('settings-password');
+
+    $("#page").css('background-color', settings.backgroundColor);
+    $("#page").css('color', settings.color);
 };
 
 let saveSettings = () => {
@@ -44,50 +56,13 @@ let saveSettings = () => {
     $.cookie('settings-color', settings.color, { expires: 365 * 80 });
     $.cookie('settings-name', settings.userName, { expires: 365 * 80 });
     $.cookie('settings-password', settings.userPassword, { expires: 365 * 80 });
+
+    $("#page").css('background-color', settings.backgroundColor);
+    $("#page").css('color', settings.color);
 };
 
 let timeline = () => {
     setDisplayCookie('timeline');
-    apply(
-        <div id="app-temp">
-            <div className="content">
-                <div className="row">
-                    <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <h2 onClick={timeline}>
-                            <img alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                            Kajizuka | 設定
-                        </h2>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-3" style={{ backgroundColor: "#eee" }}>
-                        <ul>
-                            Items
-                            <li><a href="#appearance">外見</a></li>
-                            <li><a href="#user">ユーザー設定</a></li>
-                            <li><a href="#cookies">Cookie</a></li>
-                            <button type="button" className="btn btn-primary" onClick={saveSettings}>設定を保存</button>
-                        </ul>
-                    </div>
-                    <div className="col-sm-9">
-                        <h3># 外見</h3>
-                        <p>背景色 : <input id="settings-background-color" name="" type="text" value="#FFFFFF"/></p>
-                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" value="#000000"/></p>
-                        <h3># ユーザー設定</h3>
-                        <p>ユーザー名 : <input id="settings-name" name="" type="text" value=""/></p>
-                        <p>パスワード : <input id="settings-password" name="" type="text" value="#000000"/></p>
-                        <h3># Cookies</h3>
-                        <p>KajizukaはCookieを利用して静的なアプローチでサービスを提供しています。
-                            <b>Cookieには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
-                            Cookieを削除するとあなたの情報は全て削除されるので注意してください。
-                        </p>
-                        <button type="button" className="btn btn-danger" onClick={clearCookies}>Cookieを削除する</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
 };
 
 let setting = () => {
@@ -104,7 +79,7 @@ let setting = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-3" style={{ backgroundColor: "#eee" }}>
+                    <div className="col-sm-3" style={{ backgroundColor: "#ccc8" }}>
                         <ul>
                             Items
                             <li><a href="#appearance">外見</a></li>
@@ -115,11 +90,11 @@ let setting = () => {
                     </div>
                     <div className="col-sm-9">
                         <h3># 外見</h3>
-                        <p>背景色 : <input id="settings-background-color" name="" type="text" value="#FFFFFF"/></p>
-                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" value="#000000"/></p>
+                        <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue="#FFFFFF"/></p>
+                        <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue="#000000"/></p>
                         <h3># ユーザー設定</h3>
-                        <p>ユーザー名 : <input id="settings-name" name="" type="text" value=""/></p>
-                        <p>パスワード : <input id="settings-" name="" type="text" value="#000000"/></p>
+                        <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue=""/></p>
+                        <p>パスワード : <input id="settings-" name="" type="text" defaultValue="#000000"/></p>
                         <h3># Cookies</h3>
                         <p>KajizukaはCookieを利用して静的なアプローチでサービスを提供しています。
                             <b>Cookieには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
