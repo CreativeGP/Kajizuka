@@ -25,6 +25,7 @@ $(document).ready(() => {
 });
 
 let setDisplayItem = value => localStorage.setItem('scene', value);
+let applyDefault = (value, def) => (value) ? value : def;
 
 let apply = (react) => {
     let page = document.getElementById('page');
@@ -42,10 +43,10 @@ let clearStorage = () => {
 };
 
 let loadSettings = () => {
-    settings.backgroundColor = localStorage.getItem('settings-background-color');
-    settings.color = localStorage.getItem('settings-color');
-    settings.userName = localStorage.getItem('settings-name');
-    settings.userPassword = localStorage.getItem('settings-password');
+    settings.backgroundColor = applyDefault(localStorage.getItem('settings-background-color'), '#fff');
+    settings.color = applyDefault(localStorage.getItem('settings-color'), "#000");
+    settings.userName = applyDefault(localStorage.getItem('settings-name'), "");
+    settings.userPassword = applyDefault(localStorage.getItem('settings-password'), "");
 
     $("#page").css('background-color', settings.backgroundColor);
     $("#page").css('color', settings.color);
@@ -168,7 +169,7 @@ let setting = () => {
                         <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue={settings.color}/></p>
                         <h3 id="user"># ユーザー設定</h3>
                         <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue={settings.userName} /></p>
-                        <p>パスワード : <input id="settings-" name="" type="text" defaultValue={settings.userPassword} /></p>
+                        <p>パスワード : <input id="settings-password" name="" type="text" defaultValue={settings.userPassword} /></p>
                         <h3 id="storage"># User Storages</h3>
                         <p>KajizukaはwebStorageのlocalStorageを利用して静的なアプローチでサービスを提供しています。
                             <b>ストレージには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
