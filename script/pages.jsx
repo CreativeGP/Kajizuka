@@ -1,6 +1,6 @@
 let settings = {
     backgroundColor: '#ffffff',
-    color: '#000000',
+    color: '#212529',
     userPassword: '',
     userName: ''
 };
@@ -44,7 +44,7 @@ let clearStorage = () => {
 
 let loadSettings = () => {
     settings.backgroundColor = applyDefault(localStorage.getItem('settings-background-color'), '#fff');
-    settings.color = applyDefault(localStorage.getItem('settings-color'), "#000");
+    settings.color = applyDefault(localStorage.getItem('settings-color'), "#212529");
     settings.userName = applyDefault(localStorage.getItem('settings-name'), "");
     settings.userPassword = applyDefault(localStorage.getItem('settings-password'), "");
 
@@ -114,19 +114,14 @@ let tasks = () => {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <h3># Tasks you have to DO</h3>
-                        <button type="button" className="btn btn-success">新しいTaskを登録</button>
                         <div id="task-list">
-                            <div className="list-group">
-                                <li className="list-group-item">Task; 昨日書いたコードのリファクタリング</li>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <script type="text/javascript" src="script/task.js"></script>
         </div>
     );
+    showTasks();
 };
 
 let setting = () => {
@@ -142,6 +137,7 @@ let setting = () => {
                                 Kajizuka | 設定
                             </h2>
                         </a>
+                        <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
                     </div>
                 </div>
                 <div className="row">
