@@ -8,13 +8,13 @@ let settings = {
 $(document).ready(() => {
     loadSettings();
 
-    // Check user's cookie
-    if (!$.cookie("visited")) {
+    // Check user's storage
+    if (!localStorage.visited) {
         // If it is new user, show setting.
         welcome();
-//        $.cookie('visited', true, { expires: 365 * 80 });
+        //        localStorage.visited = true;
     } else {
-        switch ($.cookie('scene')) {
+        switch (localStorage.scene) {
             case 'timeline': timeline(); break;
             case 'setting': setting(); break;
             case 'tasks': tasks(); break;
@@ -24,7 +24,7 @@ $(document).ready(() => {
     }
 });
 
-let setDisplayCookie = value => $.cookie('scene', value, { expires: 365 * 80 });
+let setDisplayItem = value => localStorage.setItem('scene', value);
 
 let apply = (react) => {
     let page = document.getElementById('page');
@@ -35,22 +35,17 @@ let app_template = () => {
     tasks();
 };
 
-let clearCookies = () => {
-    $.removeCookie('visited');
-    $.removeCookie('scene');
-    $.removeCookie('settings-background-color');
-    $.removeCookie('settings-color');
-    $.removeCookie('settings-name');
-    $.removeCookie('settings-password');
+let clearStorage = () => {
+    localStorage.clear();
+    loadSettings();
     welcome();
 };
 
-
 let loadSettings = () => {
-    settings.backgroundColor = $.cookie('settings-background-color');
-    settings.color = $.cookie('settings-color');
-    settings.userName = $.cookie('settings-name');
-    settings.userPassword = $.cookie('settings-password');
+    settings.backgroundColor = localStorage.getItem('settings-background-color');
+    settings.color = localStorage.getItem('settings-color');
+    settings.userName = localStorage.getItem('settings-name');
+    settings.userPassword = localStorage.getItem('settings-password');
 
     $("#page").css('background-color', settings.backgroundColor);
     $("#page").css('color', settings.color);
@@ -62,10 +57,10 @@ let saveSettings = () => {
     settings.userName = $('#settings-name').val();
     settings.userPassword = $('#settings-password').val();
 
-    $.cookie('settings-background-color', settings.backgroundColor, { expires: 365 * 80 });
-    $.cookie('settings-color', settings.color, { expires: 365 * 80 });
-    $.cookie('settings-name', settings.userName, { expires: 365 * 80 });
-    $.cookie('settings-password', settings.userPassword, { expires: 365 * 80 });
+    localStorage.setItem('settings-background-color', settings.backgroundColor);
+    localStorage.setItem('settings-color', settings.color);
+    localStorage.setItem('settings-name', settings.userName);
+    localStorage.setItem('settings-password', settings.userPassword);
 
     $("#page").css('background-color', settings.backgroundColor);
     $("#page").css('color', settings.color);
@@ -80,19 +75,19 @@ let dropdown_menu = () => {
 };
 
 let timeline = () => {
-    setDisplayCookie('timeline');
+    setDisplayItem('timeline');
 };
 
 let ideas = () => {
-    setDisplayCookie('ideas');
+    setDisplayItem('ideas');
 };
 
 let subjects = () => {
-    setDisplayCookie('subjects');
+    setDisplayItem('subjects');
 };
 
 let tasks = () => {
-    setDisplayCookie('tasks');
+    setDisplayItem('tasks');
     apply(
         <div id="task-temp">
             <div className="content">
@@ -116,13 +111,25 @@ let tasks = () => {
                         <button type="button" className="btn btn-link" onClick={setting}>設定</button>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <h3># Tasks you have to DO</h3>
+                        <button type="button" className="btn btn-success">新しいTaskを登録</button>
+                        <div id="task-list">
+                            <div className="list-group">
+                                <li className="list-group-item">Task; 昨日書いたコードのリファクタリング</li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <script type="text/javascript" src="script/task.js"></script>
         </div>
     );
 };
 
 let setting = () => {
-    setDisplayCookie('setting');
+    setDisplayItem('setting');
     apply(
         <div id="app-temp">
             <div className="content">
@@ -151,23 +158,23 @@ let setting = () => {
                         <ul>
                             <li><a href="#appearance">外見</a></li>
                             <li><a href="#user">ユーザー設定</a></li>
-                            <li><a href="#cookies">Cookie</a></li>
+                            <li><a href="#storage">User Storage</a></li>
                             <button type="button" className="btn btn-primary" onClick={saveSettings}>設定を保存</button>
                         </ul>
                     </div>
                     <div className="col-sm-9">
-                        <h3># 外見</h3>
+                        <h3 id="appearance"># 外見</h3>
                         <p>背景色 : <input id="settings-background-color" name="" type="text" defaultValue={settings.backgroundColor}/></p>
                         <p>文字色 : <input id="settings-contrast-color" name="" type="text" defaultValue={settings.color}/></p>
-                        <h3># ユーザー設定</h3>
+                        <h3 id="user"># ユーザー設定</h3>
                         <p>ユーザー名 : <input id="settings-name" name="" type="text" defaultValue={settings.userName} /></p>
                         <p>パスワード : <input id="settings-" name="" type="text" defaultValue={settings.userPassword} /></p>
-                        <h3># Cookies</h3>
-                        <p>KajizukaはCookieを利用して静的なアプローチでサービスを提供しています。
-                            <b>Cookieには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
-                            Cookieを削除するとあなたの情報は全て削除されるので注意してください。
+                        <h3 id="storage"># User Storages</h3>
+                        <p>KajizukaはwebStorageのlocalStorageを利用して静的なアプローチでサービスを提供しています。
+                            <b>ストレージには上記の設定項目の内容やあなたのタスクなどアプリの情報が全て詰まっています。</b>
+                            ストレージを削除するとあなたの情報は全て削除されるので注意してください。
                         </p>
-                        <button type="button" className="btn btn-danger" onClick={clearCookies}>Cookieを削除する</button>
+                        <button type="button" className="btn btn-danger" onClick={clearStorage}>ストレージを削除する</button>
                     </div>
                 </div>
             </div>
