@@ -1,0 +1,26 @@
+{
+    "name": "kajizuka",
+    "version": "1.0.0",
+    "description": "A sophisticated task management application which covers from TODO management to planning of your life.",
+    "main": "pages.jsx",
+    "scripts": {
+        "build": "babel scripts -d lib",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CreativeGP/Kajizuka.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CreativeGP/Kajizuka/issues"
+    },
+    "homepage": "https://github.com/CreativeGP/Kajizuka#readme",
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-react": "^6.24.1"
+    }
+}

@@ -12,7 +12,7 @@ $(document).ready(() => {
     if (!localStorage.visited) {
         // If it is new user, show setting.
         welcome();
-        //        localStorage.visited = true;
+        localStorage.visited = true;
     } else {
         switch (localStorage.scene) {
             case 'timeline': timeline(); break;
@@ -87,41 +87,226 @@ let subjects = () => {
     setDisplayItem('subjects');
 };
 
+let dateFormat = {
+    fmt : {
+        "yyyy": function(date) { return date.getFullYear() + ''; },
+        "MM": function(date) { return ('0' + (date.getMonth() + 1)).slice(-2); },
+        "dd": function(date) { return ('0' + date.getDate()).slice(-2); },
+        "hh": function(date) { return ('0' + date.getHours()).slice(-2); },
+        "mm": function(date) { return ('0' + date.getMinutes()).slice(-2); },
+        "ss": function(date) { return ('0' + date.getSeconds()).slice(-2); }
+    },
+    format:function dateFormat (date, format) {
+        var result = format;
+        for (var key in this.fmt)
+            result = result.replace(key, this.fmt[key](date));
+        return result;
+    }
+};
+
+
 let tasks = () => {
     setDisplayItem('tasks');
+
+    let toggle_add_task_modal = () =>
+        $("#myModal").modal('show');
+
+    let add_task = () => {
+        let data = JSON.parse(localStorage.tasks);
+        data.push({
+            title: $("#task-name").val(),
+            add: new Date(),
+            deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
+        });
+        data.sort((a, b) => (new Date(b.add))-(new Date(a.add)));
+        localStorage.tasks = JSON.stringify(data);
+
+        tasks();  // redraw
+    };
+
     apply(
         <div id="task-temp">
-            <div className="content">
-                <div className="row">
-                    <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <a className="float-left">
-                            <h2>
-                                <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                                Kajizuka | Tasks
-                            </h2>
-                        </a>
-                        <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
-                    </div>
+            <div className="row">
+                <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <a className="float-left">
+                        <h2>
+                            <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
+                            Kajizuka | Tasks
+                        </h2>
+                    </a>
+                    <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
                 </div>
-                <div className="row">
-                    <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
-                        <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
-                        <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
-                        <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
-                        <button type="button" className="btn btn-link" onClick={setting}>設定</button>
-                    </div>
+            </div>
+            <div className="row">
+                <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
+                    <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
+                    <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
+                    <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
+                    <button type="button" className="btn btn-link" onClick={setting}>設定</button>
                 </div>
+            </div>
+            <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
                         <div id="task-list">
+                            <div className="list-group">
+                                <li className="list-group-item active">
+                                    <h3 className="float-left">Tasks you have to DO</h3>
+                                    <button id="Toggle_AddTaskModal" type="button" className="float-right btn btn-success" onClick={toggle_add_task_modal}>新しいTaskを登録</button>
+                                </li>
+                                {JSON.parse(localStorage.tasks).map(task=> <TaskListItem key={task.content} task={task} />)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="myModal">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">新しいタスクを追加</h4>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                                <div className="htmlForm-group row">
+                                    <label className="col-form-label" htmlFor="task-name">タスク名</label>
+                                    <input id="task-name" className="form-control" name="" type="text" defaultValue=""/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-tags">タグ</label>
+                                    <input id="task-tags" className="form-control" name="task-tags" type="text" defaultValue=""/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-deadline">タスク締め切り</label>
+                                    <input id="task-deadline" className="form-control" name="" type="date" defaultValue={dateFormat.format(new Date(), 'yyyy-MM-dd')}/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-detail">タスク詳細</label><br />
+                                    <textarea id="task-detail" rows="3" style={{width: "100%"}} className="htmlForm-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={add_task}>追加</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-    showTasks();
+};
+
+
+const TaskListItem = props => {
+    return (
+        <li className="list-group-item">
+            {props.task.title}
+            <small className="float-right text-muted">追加日：{dateFormat.format(new Date(props.task.add), 'MM/dd/yyyy')}</small>
+            {(()=>{
+                 if (props.task.deadline)
+                     return <p><small className="float-right text-muted">締め切り：{props.task.deadline}</small></p>;
+            })()}
+        </li>
+    );
+};
+
+let tasks = () => {
+    setDisplayItem('tasks');
+
+    let toggle_add_task_modal = () =>
+        $("#myModal").modal('show');
+
+    let add_task = () => {
+        let data = JSON.parse(localStorage.tasks);
+        data.push({
+            title: $("#task-name").val(),
+            add: new Date(),
+            deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
+        });
+        data.sort((a, b) => (new Date(b.add))-(new Date(a.add)));
+        localStorage.tasks = JSON.stringify(data);
+
+        tasks();  // redraw
+    };
+
+    apply(
+        <div id="task-temp">
+            <div className="row">
+                <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <a className="float-left">
+                        <h2>
+                            <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
+                            Kajizuka | Tasks
+                        </h2>
+                    </a>
+                    <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
+                </div>
+            </div>
+            <div className="row">
+                <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
+                    <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
+                    <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
+                    <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
+                    <button type="button" className="btn btn-link" onClick={setting}>設定</button>
+                </div>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div id="task-list">
+                            <div className="list-group">
+                                <li className="list-group-item active">
+                                    <h3 className="float-left">Tasks you have to DO</h3>
+                                    <button id="Toggle_AddTaskModal" type="button" className="float-right btn btn-success" onClick={toggle_add_task_modal}>新しいTaskを登録</button>
+                                </li>
+                                {JSON.parse(localStorage.tasks).map(task=> <TaskListItem key={task.content} task={task} />)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="myModal">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">新しいタスクを追加</h4>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                                <div className="htmlForm-group row">
+                                    <label className="col-form-label" htmlFor="task-name">タスク名</label>
+                                    <input id="task-name" className="form-control" name="" type="text" defaultValue=""/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-tags">タグ</label>
+                                    <input id="task-tags" className="form-control" name="task-tags" type="text" defaultValue=""/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-deadline">タスク締め切り</label>
+                                    <input id="task-deadline" className="form-control" name="" type="date" defaultValue={dateFormat.format(new Date(), 'yyyy-MM-dd')}/>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-form-label" htmlFor="task-detail">タスク詳細</label><br />
+                                    <textarea id="task-detail" rows="3" style={{width: "100%"}} className="htmlForm-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={add_task}>追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 let setting = () => {
