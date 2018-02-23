@@ -99,6 +99,54 @@ let dropdown_menu = () => {
     }
 };
 
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////
+
+Components
+
+*/ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+const Title = React.createClass({
+    propTypes: {
+        pageName: React.PropTypes.string.isRequired
+    },
+    render: function () {
+        return (
+            <div className="row">
+                <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <a className="float-left">
+                        <h2>
+                            <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
+                            Kajizuka | {this.props.pageName}
+                        </h2>
+                    </a>
+                    <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
+                </div>
+            </div>
+        );
+    }
+});
+
+const Menu = React.createClass({
+    render: function () {
+        return (
+            <div className="row">
+                <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+                    <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
+                    <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
+                    <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
+                    <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
+                    <button type="button" className="btn btn-link" onClick={setting}>設定</button>
+                </div>
+            </div>
+        );
+    }
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 let timeline = () => {
     setDisplayItem('timeline');
 };
@@ -128,26 +176,8 @@ let subjects = () => {
 
     apply(
         <div id="subject-temp">
-            <div className="row">
-                <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                    <a className="float-left">
-                        <h2>
-                            <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                            Kajizuka | Subjects
-                        </h2>
-                    </a>
-                    <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
-                </div>
-            </div>
-            <div className="row">
-                <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                    <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
-                    <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
-                    <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
-                    <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
-                    <button type="button" className="btn btn-link" onClick={setting}>設定</button>
-                </div>
-            </div>
+            <Title pageName="Subjects" />
+            <Menu />
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
@@ -236,26 +266,8 @@ let tasks = () => {
 
     apply(
         <div id="task-temp">
-            <div className="row">
-                <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                    <a className="float-left">
-                        <h2>
-                            <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                            Kajizuka | Tasks
-                        </h2>
-                    </a>
-                    <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
-                </div>
-            </div>
-            <div className="row">
-                <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                    <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
-                    <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
-                    <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
-                    <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
-                    <button type="button" className="btn btn-link" onClick={setting}>設定</button>
-                </div>
-            </div>
+            <Title pageName="Tasks" />
+            <Menu />
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
@@ -315,27 +327,8 @@ let setting = () => {
     apply(
         <div id="app-temp">
             <div className="content">
-                <div className="row">
-                    <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <a>
-                            <h2>
-                                <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                                Kajizuka | 設定
-                            </h2>
-                        </a>
-                        <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
-                        <button type="button" className="btn btn-link" onClick={timeline}>Timeline</button>
-                        <button type="button" className="btn btn-link" onClick={tasks}>Tasks</button>
-                        <button type="button" className="btn btn-link" onClick={subjects}>Subjects</button>
-                        <button type="button" className="btn btn-link" onClick={ideas}>Ideas</button>
-                        <button type="button" className="btn btn-link" onClick={setting}>設定</button>
-                    </div>
-
-                </div>
+                <Title pageName="設定" />
+                <Menu />
                 <div className="row">
                     <div className="col-sm-3" style={{ backgroundColor: "#ccc8" }}>
                         <ul>
