@@ -158,6 +158,20 @@ let ideas = () => {
 let subjects = () => {
     setDisplayItem('subjects');
 
+    const SubjectListItem = props => {
+        return (
+            <div className="card w-50">
+                <div className="card-body">
+                    <h4 className="card-title">{props.subject.title}</h4>
+                    <p className="card-text">{props.subject.detail}</p>
+                    <small className="text-muted float-right">
+                        追加日：{dateFormat.format(new Date(props.subject.add), 'MM/dd/yyyy')}
+                    </small>
+                </div>
+            </div>
+        );
+    };
+
     let toggle_add_subject_modal = () =>
         $("#myModal").modal('show');
 
@@ -166,7 +180,7 @@ let subjects = () => {
         data.push({
             title: $("#subject-name").val(),
             add: new Date(),
-            deadline: $("#subject-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#subject-deadline").val().replace(/-/g, '/').substr(0, 4)
+            detail: $("#subject-detail").val(),
         });
         data.sort((a, b) => (new Date(b.add))-(new Date(a.add)));
         localStorage.subjects = JSON.stringify(data);
@@ -181,16 +195,10 @@ let subjects = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
-                        <div id="subject-list">
-                            <div className="list-group">
-                                <li className="list-group-item active">
-                                    <h3 className="float-left">Subjects you have</h3>
-                                    <button id="Toggle_AddSubjectModal" type="button" className="float-right btn btn-success" onClick={toggle_add_subject_modal}>Subjectを追加</button>
-                                </li>
-                                {JSON.parse(localStorage.subjects).map(subject=> <SubjectListItem key={subject.content} subject={subject} />)}
-                            </div>
-                        </div>
+                        <h3 className="float-left">Subjects you have</h3>
+                        <button id="Toggle_AddSubjectModal" type="button" className="float-right btn btn-success" onClick={toggle_add_subject_modal}>Subjectを追加</button>
                     </div>
+                    {JSON.parse(localStorage.subjects).map(subject=> <SubjectListItem key={subject.detail} subject={subject} />)}
                 </div>
             </div>
 
@@ -198,25 +206,17 @@ let subjects = () => {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h4 className="modal-title">新しいタスクを追加</h4>
+                            <h4 className="modal-title">新しいSubjectを追加</h4>
                             <button type="button" className="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
                             <form>
                                 <div className="htmlForm-group row">
-                                    <label className="col-form-label" htmlFor="subject-name">タスク名</label>
+                                    <label className="col-form-label" htmlFor="subject-name">名前</label>
                                     <input id="subject-name" className="form-control" name="" type="text" defaultValue=""/>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="subject-tags">タグ</label>
-                                    <input id="subject-tags" className="form-control" name="subject-tags" type="text" defaultValue=""/>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="subject-deadline">タスク締め切り</label>
-                                    <input id="subject-deadline" className="form-control" name="" type="date" defaultValue={dateFormat.format(new Date(), 'yyyy-MM-dd')}/>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="subject-detail">タスク詳細</label><br />
+                                    <label className="col-form-label" htmlFor="subject-detail">詳細</label><br />
                                     <textarea id="subject-detail" rows="3" style={{width: "100%"}} className="htmlForm-control" />
                                 </div>
                             </form>
@@ -232,21 +232,22 @@ let subjects = () => {
     );
 };
 
-const TaskListItem = props => {
-    return (
-        <li className="list-group-item">
-            {props.task.title}
-            <small className="float-right text-muted">追加日：{dateFormat.format(new Date(props.task.add), 'MM/dd/yyyy')}</small>
-            {(()=>{
-                 if (props.task.deadline)
-                     return <p><small className="float-right text-muted">締め切り：{props.task.deadline}</small></p>;
-            })()}
-        </li>
-    );
-};
-
 let tasks = () => {
     setDisplayItem('tasks');
+
+
+    const TaskListItem = props => {
+        return (
+            <li className="list-group-item">
+                {props.task.title}
+                <small className="float-right text-muted">追加日：{dateFormat.format(new Date(props.task.add), 'MM/dd/yyyy')}</small>
+                {(()=>{
+                     if (props.task.deadline)
+                         return <p><small className="float-right text-muted">締め切り：{props.task.deadline}</small></p>;
+                })()}
+            </li>
+        );
+    };
 
     let toggle_add_task_modal = () =>
         $("#myModal").modal('show');
