@@ -158,12 +158,26 @@ let ideas = () => {
 let subjects = () => {
     setDisplayItem('subjects');
 
+    let show_edit_subject_modal = () => {
+
+    };
+
     const SubjectListItem = props => {
         return (
             <div className="card w-50">
                 <div className="card-body">
-                    <h4 className="card-title">{props.subject.title}</h4>
-                    <p className="card-text">{props.subject.detail}</p>
+                    <h4 className="card-title">{props.subject.title}
+                        <button className="btn btn-link float-right h1 text-dark" onClick={show_edit_subject_modal}
+                                style={{
+                                    position: "relative",
+                                    bottom: "20px",
+                                    textDecoration: "none",
+                                    fontSize: "32px"
+                                }}>*</button>
+                    </h4>
+                    <p className="card-text">
+                        {props.subject.detail}
+                    </p>
                     <small className="text-muted float-right">
                         追加日：{dateFormat.format(new Date(props.subject.add), 'MM/dd/yyyy')}
                     </small>
