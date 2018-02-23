@@ -5,8 +5,32 @@ let settings = {
     userName: ''
 };
 
+let dateFormat = {
+    fmt : {
+        "yyyy": function(date) { return date.getFullYear() + ''; },
+        "MM": function(date) { return ('0' + (date.getMonth() + 1)).slice(-2); },
+        "dd": function(date) { return ('0' + date.getDate()).slice(-2); },
+        "hh": function(date) { return ('0' + date.getHours()).slice(-2); },
+        "mm": function(date) { return ('0' + date.getMinutes()).slice(-2); },
+        "ss": function(date) { return ('0' + date.getSeconds()).slice(-2); }
+    },
+    format:function dateFormat (date, format) {
+        var result = format;
+        for (var key in this.fmt)
+            result = result.replace(key, this.fmt[key](date));
+        return result;
+    }
+};
+
 $(document).ready(() => {
+    let check_local_storage = () => {
+        // JSONとして読み込む変数はカラリストで初期化しておかないとエラる
+        if (!localStorage.tasks) localStorage.tasks = '[]';
+        if (!localStorage.subjects) localStorage.subjects = '[]';
+    };
+
     loadSettings();
+    check_local_storage();
 
     // Check user's storage
     if (!localStorage.visited) {
@@ -85,53 +109,31 @@ let ideas = () => {
 
 let subjects = () => {
     setDisplayItem('subjects');
-};
 
-let dateFormat = {
-    fmt : {
-        "yyyy": function(date) { return date.getFullYear() + ''; },
-        "MM": function(date) { return ('0' + (date.getMonth() + 1)).slice(-2); },
-        "dd": function(date) { return ('0' + date.getDate()).slice(-2); },
-        "hh": function(date) { return ('0' + date.getHours()).slice(-2); },
-        "mm": function(date) { return ('0' + date.getMinutes()).slice(-2); },
-        "ss": function(date) { return ('0' + date.getSeconds()).slice(-2); }
-    },
-    format:function dateFormat (date, format) {
-        var result = format;
-        for (var key in this.fmt)
-            result = result.replace(key, this.fmt[key](date));
-        return result;
-    }
-};
-
-
-let tasks = () => {
-    setDisplayItem('tasks');
-
-    let toggle_add_task_modal = () =>
+    let toggle_add_subject_modal = () =>
         $("#myModal").modal('show');
 
-    let add_task = () => {
-        let data = JSON.parse(localStorage.tasks);
+    let add_subject = () => {
+        let data = JSON.parse(localStorage.subjects);
         data.push({
-            title: $("#task-name").val(),
+            title: $("#subject-name").val(),
             add: new Date(),
-            deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
+            deadline: $("#subject-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#subject-deadline").val().replace(/-/g, '/').substr(0, 4)
         });
         data.sort((a, b) => (new Date(b.add))-(new Date(a.add)));
-        localStorage.tasks = JSON.stringify(data);
+        localStorage.subjects = JSON.stringify(data);
 
-        tasks();  // redraw
+        subjects();  // redraw
     };
 
     apply(
-        <div id="task-temp">
+        <div id="subject-temp">
             <div className="row">
                 <div className="col-sm-12" style={{ margin: "none", borderBottom: "2px solid black" }}>
                     <a className="float-left">
                         <h2>
                             <img id="logo" alt="" src="/logo/kajizuka.png" width="64" height="64" />
-                            Kajizuka | Tasks
+                            Kajizuka | Subjects
                         </h2>
                     </a>
                     <button type="button" className="float-right btn btn-link" onClick={dropdown_menu}>MENU</button>
@@ -149,13 +151,13 @@ let tasks = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
-                        <div id="task-list">
+                        <div id="subject-list">
                             <div className="list-group">
                                 <li className="list-group-item active">
-                                    <h3 className="float-left">Tasks you have to DO</h3>
-                                    <button id="Toggle_AddTaskModal" type="button" className="float-right btn btn-success" onClick={toggle_add_task_modal}>新しいTaskを登録</button>
+                                    <h3 className="float-left">Subjects you have</h3>
+                                    <button id="Toggle_AddSubjectModal" type="button" className="float-right btn btn-success" onClick={toggle_add_subject_modal}>Subjectを追加</button>
                                 </li>
-                                {JSON.parse(localStorage.tasks).map(task=> <TaskListItem key={task.content} task={task} />)}
+                                {JSON.parse(localStorage.subjects).map(subject=> <SubjectListItem key={subject.content} subject={subject} />)}
                             </div>
                         </div>
                     </div>
@@ -172,26 +174,26 @@ let tasks = () => {
                         <div className="modal-body">
                             <form>
                                 <div className="htmlForm-group row">
-                                    <label className="col-form-label" htmlFor="task-name">タスク名</label>
-                                    <input id="task-name" className="form-control" name="" type="text" defaultValue=""/>
+                                    <label className="col-form-label" htmlFor="subject-name">タスク名</label>
+                                    <input id="subject-name" className="form-control" name="" type="text" defaultValue=""/>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="task-tags">タグ</label>
-                                    <input id="task-tags" className="form-control" name="task-tags" type="text" defaultValue=""/>
+                                    <label className="col-form-label" htmlFor="subject-tags">タグ</label>
+                                    <input id="subject-tags" className="form-control" name="subject-tags" type="text" defaultValue=""/>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="task-deadline">タスク締め切り</label>
-                                    <input id="task-deadline" className="form-control" name="" type="date" defaultValue={dateFormat.format(new Date(), 'yyyy-MM-dd')}/>
+                                    <label className="col-form-label" htmlFor="subject-deadline">タスク締め切り</label>
+                                    <input id="subject-deadline" className="form-control" name="" type="date" defaultValue={dateFormat.format(new Date(), 'yyyy-MM-dd')}/>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-form-label" htmlFor="task-detail">タスク詳細</label><br />
-                                    <textarea id="task-detail" rows="3" style={{width: "100%"}} className="htmlForm-control" />
+                                    <label className="col-form-label" htmlFor="subject-detail">タスク詳細</label><br />
+                                    <textarea id="subject-detail" rows="3" style={{width: "100%"}} className="htmlForm-control" />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={add_task}>追加</button>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={add_subject}>追加</button>
                         </div>
                     </div>
                 </div>
@@ -199,7 +201,6 @@ let tasks = () => {
         </div>
     );
 };
-
 
 const TaskListItem = props => {
     return (
