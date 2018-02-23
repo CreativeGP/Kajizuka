@@ -46,6 +46,12 @@ var ID = function () {
     return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+Object.prototype.map = function (proc) {
+    for (key in this) {
+        proc(key, this[key]);
+    }
+};
+
 $(document).ready(() => {
     let check_local_storage = () => {
         // JSONとして読み込む変数はカラリストで初期化しておかないとエラる
@@ -126,9 +132,9 @@ let dropdown_menu = () => {
 
 /* ////////////////////////////////////////////////////////////////////////////////////////////////
 
-Components
+   Components
 
-*/ ////////////////////////////////////////////////////////////////////////////////////////////////
+ */ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Title = React.createClass({
     propTypes: {
@@ -184,12 +190,12 @@ let subjects = () => {
 
     let show_edit_subject_modal = (card) => {
         $("#editModal").modal('show');
-        $("#editModal-title").html(
+        //        $("#editModal-title").html(
     };
 
     const SubjectListItem = props => {
         return (
-            <div id={"subject-"+props.} className="card w-50">
+            <div className="card w-50">
                 <div className="card-body">
                     <h4 className="card-title">{props.subject.title}
                         <button className="btn btn-link float-right h1 text-dark" onClick={show_edit_subject_modal($)}
@@ -323,11 +329,13 @@ let tasks = () => {
 
     let add_task = () => {
         let data = JSON.parse(localStorage.tasks);
-        data.push({
+        let id = ID();
+        data[id] = {
+            id: id,
             title: $("#task-name").val(),
             add: new Date(),
             deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
-        });
+        };
         data.sort((a, b) => (new Date(b.add))-(new Date(a.add)));
         localStorage.tasks = JSON.stringify(data);
 
@@ -347,7 +355,12 @@ let tasks = () => {
                                     <h3 className="float-left">Tasks you have to DO</h3>
                                     <button id="Toggle_AddTaskModal" type="button" className="float-right btn btn-success" onClick={toggle_add_task_modal}>新しいTaskを登録</button>
                                 </li>
-                                {JSON.parse(localStorage.tasks).map(task=> <TaskListItem key={task.content} task={task} />)}
+                                {(()=>{
+                                     let task_data = JSON.parse(localStorage.tasks);
+                                     for (key in task_data) {
+                                         <TaskListItem key={key} task={task_data[key]} />
+                                     }
+                                })()}
                             </div>
                         </div>
                     </div>
