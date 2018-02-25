@@ -7,7 +7,14 @@ module.exports = {
         rules: [{
             test: /\.js?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+            query: {
+                presets: ['react', 'es2015']
+            }
         }]
+    },
+    devtool: 'source-map',
+    resolve: {
+        modules: ['node_modules']
     }
 }
