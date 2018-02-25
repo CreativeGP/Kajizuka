@@ -225,7 +225,6 @@ let subjects = () => {
             super();
             this.state = { id: '' };
         }
-        toggle () { this.
         render () {
             return (
                 <div className="modal fade" id="editModal">

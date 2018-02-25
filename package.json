@@ -4,8 +4,9 @@
     "description": "A sophisticated task management application which covers from TODO management to planning of your life.",
     "main": "pages.jsx",
     "scripts": {
-        "build": "babel scripts -d lib",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack",
+        "start": "webpack-dev-server --hot --inline"
     },
     "repository": {
         "type": "git",

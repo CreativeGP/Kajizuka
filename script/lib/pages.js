@@ -263,10 +263,16 @@ var subjects = function subjects() {
         function SubjectListItem(props) {
             _classCallCheck(this, SubjectListItem);
 
-            return _possibleConstructorReturn(this, (SubjectListItem.__proto__ || Object.getPrototypeOf(SubjectListItem)).call(this, props));
+            var _this = _possibleConstructorReturn(this, (SubjectListItem.__proto__ || Object.getPrototypeOf(SubjectListItem)).call(this, props));
+
+            _this.handleClick = _this.handleClick.bind(_this);
+            return _this;
         }
 
         _createClass(SubjectListItem, [{
+            key: 'handleClick',
+            value: function handleClick() {}
+        }, {
             key: 'render',
             value: function render() {
                 return React.createElement(
