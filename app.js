@@ -10,7 +10,12 @@ class App extends React.Component {
         this.state = { page: <Welcome switchPageCallback={e=> this.show(e)} /> }
     }
 
+    setDisplayItem(value) {
+        localStorage.setItem('scene', value)
+    }
+
     show(url) {
+        setDisplayItem(url)
         switch(url) {
             case 'welcome': this.setState({ page: <Welcome switchPageCallback={e=> this.show(e)} /> })
             break

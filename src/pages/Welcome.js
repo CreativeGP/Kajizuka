@@ -3,8 +3,8 @@ import Tasks from './Tasks'
 
 export default class Welcome extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     }
 
     render() {
