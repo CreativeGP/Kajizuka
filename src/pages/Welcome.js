@@ -84,7 +84,7 @@ export default class Welcome extends React.Component {
 
 
                     <div className="mx-auto" style={{ width: '80%' }}>
-                        <p className="text-center"><button type="button" className="btn btn-primary text-center" onClick={super.show}>早速使ってみる</button></p>
+                        <p className="text-center"><button type="button" className="btn btn-primary text-center" onClick={e=> this.props.switchPageCallback('tasks')}>早速使ってみる</button></p>
                     </div>
 
                     <hr />
