@@ -15,7 +15,7 @@ class App extends React.Component {
     }
 
     show(url) {
-        setDisplayItem(url)
+        this.setDisplayItem(url)
         switch(url) {
             case 'welcome': this.setState({ page: <Welcome switchPageCallback={e=> this.show(e)} /> })
             break
