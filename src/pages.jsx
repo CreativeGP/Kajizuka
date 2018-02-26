@@ -541,9 +541,3 @@ let welcome = () => {
     let page = document.getElementById('page');
     ReactDOM.render(content, page);
 };
-
-let app = () => {
-    var helloReact = <div>Hello! React!</div>;
-    var content = document.getElementById('content');
-    ReactDOM.render(helloReact, content);
-};

@@ -18,7 +18,7 @@ export default class Welcome extends React.Component {
                     <p><em>簡単に言うと高機能なタスク管理アプリです。
                     Kajizuka(舵柄)とは船の舵を回す時に握る舵棒のことでユーザーのタスクの舵取りとなるような
                     アプリになってほしいという願いが込められています。</em></p>
-                    <p className="text-center"><button type="button" className="btn btn-primary text-center" onClick={super.show}>早速使ってみる</button></p>
+                    <p className="text-center"><button type="button" className="btn btn-primary text-center" onClick={e=> this.props.switchPageCallback('tasks')}>早速使ってみる</button></p>
                 </div>
 
                 <div id="content" className="container">
