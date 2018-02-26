@@ -2,8 +2,8 @@ import React from 'react'
 
 export default class Tasks extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     }
 
     render() {
