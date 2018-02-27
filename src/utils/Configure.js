@@ -13,8 +13,17 @@ import Title from '../components/Title'
 */
 export default class Configure {
 
+    backgroundColor = '#fff'
+    color = '#212529'
+    userName = ''
+    userPassword = ''
+
     constructor() {
         this.save = this.save.bind(this)
+        this.load = this.load.bind(this)
+        this.clear = this.clear.bind(this)
+
+        this.load()
     }
 
     /** 
@@ -46,19 +55,20 @@ export default class Configure {
         let applyDefault = (value, def) => (value) ? value : def
 
         this.backgroundColor = applyDefault(localStorage.getItem('settings-background-color'), '#fff')
-        this.color = applyDefault(localStorage.getItem('settings-color'), "#212529")
-        this.userName = applyDefault(localStorage.getItem('settings-name'), "")
-        this.userPassword = applyDefault(localStorage.getItem('settings-password'), "")
+        this.color = applyDefault(localStorage.getItem('settings-color'), '#212529')
+        this.userName = applyDefault(localStorage.getItem('settings-name'), '')
+        this.userPassword = applyDefault(localStorage.getItem('settings-password'), '')
 
-        $("#page").css('background-color', this.backgroundColor)
-        $("#page").css('color', this.color)
+        $('#page').css('background-color', this.backgroundColor)
+        $('#page').css('color', this.color)
     }
 
 
     /**
      * @function clear Clears user settings.
+     * @argument {Function} welcome A function to show welcome page
      */
-    clear () {
+    clear (welcome) {
         // Clear user settings
         localStorage.clear()
 
