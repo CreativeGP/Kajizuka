@@ -24,17 +24,48 @@ export default class Configure {
     save () {
         // めんどくさいのでJQueryで横着
         // TODO: 余力があれば面倒だけどReact風にうまくformを実装するのもいいかも
-        this.backgroundColor = $('#settings-background-color').val();
-        this.color = $('#settings-contrast-color').val();
-        this.userName = $('#settings-name').val();
-        this.userPassword = $('#settings-password').val();
+        this.backgroundColor = $('#settings-background-color').val()
+        this.color = $('#settings-contrast-color').val()
+        this.userName = $('#settings-name').val()
+        this.userPassword = $('#settings-password').val()
 
-        localStorage.setItem('settings-background-color', this.backgroundColor);
-        localStorage.setItem('settings-color', this.color);
-        localStorage.setItem('settings-name', this.userName);
-        localStorage.setItem('settings-password', this.userPassword);
+        localStorage.setItem('settings-background-color', this.backgroundColor)
+        localStorage.setItem('settings-color', this.color)
+        localStorage.setItem('settings-name', this.userName)
+        localStorage.setItem('settings-password', this.userPassword)
 
-        $("#page").css('background-color', this.backgroundColor);
-        $("#page").css('color', this.color);
+        $("#page").css('background-color', this.backgroundColor)
+        $("#page").css('color', this.color)
+    }
+
+
+    /**
+     * @function load Loads user settings from the localStorage.
+     */
+    load () {
+        let applyDefault = (value, def) => (value) ? value : def
+
+        this.backgroundColor = applyDefault(localStorage.getItem('settings-background-color'), '#fff')
+        this.color = applyDefault(localStorage.getItem('settings-color'), "#212529")
+        this.userName = applyDefault(localStorage.getItem('settings-name'), "")
+        this.userPassword = applyDefault(localStorage.getItem('settings-password'), "")
+
+        $("#page").css('background-color', this.backgroundColor)
+        $("#page").css('color', this.color)
+    }
+
+
+    /**
+     * @function clear Clears user settings.
+     */
+    clear () {
+        // Clear user settings
+        localStorage.clear()
+
+        // Set default values
+        this.load()
+
+        // Show welcome page
+        welcome()
     }
 }
