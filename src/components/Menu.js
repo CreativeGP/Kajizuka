@@ -1,5 +1,15 @@
+/**
+ * Kajizuka - Menu.js
+ * Handwrote by CreativeGP (02/26/2018)
+ */
+
 import React from 'react'
 
+/** 
+ * Title - *
+ * @class
+ * @prop {Object} style - a react.js style object
+*/
 export default class Menu extends React.Component {
 
     constructor(props) {
@@ -7,9 +17,12 @@ export default class Menu extends React.Component {
     }
 
     render() {
-        return (
+        // 必要なスタイルとpropsを使って渡されたスタイルを融合
+        let my_style = Object.assign(this.props.style, { margin: "none", borderBottom: "2px solid black" })
+
+        return (  
             // TODO: react-bootstrapを使ってみてもいいかも
-            <div id="menu" className="col-sm-12 hidden-sm-down" style={{ margin: "none", borderBottom: "2px solid black" }}>
+            <div id="menu" style={my_style} className="col-sm-12 hidden-sm-down">
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('timeline')}>Timeline</button>
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('tasks')}>Tasks</button>
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('subjects')}>Subjects</button>

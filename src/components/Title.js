@@ -1,8 +1,22 @@
+/**
+ * Kajizuka - Tile.js
+ * Handwrote by CreativeGP (02/26/2018)
+ * 
+ * A component for the header of every pages.
+ */
+
 import React from 'react'
 import PropTypes from 'prop-types'
 
 import Menu from './Menu'
 
+/** 
+ * Settings,Tasks,Timeline,Ideas,Subjects -> * -> Menu
+ * @class
+ * @prop {Function} switchPageCallback - a page switching function that is a method of App class
+ * @prop {String} pageName - a string which is shown in header
+ * @state {Boolean} show_menu - whether the Menu is visible
+*/
 export default class Title extends React.Component {
 
     constructor (props) {
@@ -10,9 +24,11 @@ export default class Title extends React.Component {
         this.state = {
             show_menu: true
         }
+
+        this.toggleMenu = this.toggleMenu.bind(this)
     }
 
-    toggleMenu = () => {
+    toggleMenu () {
         this.setState({
             show_menu: !this.state.show_menu
         })
