@@ -12,7 +12,7 @@ export default class Title extends React.Component {
         }
     }
 
-    toggleMenu () {
+    toggleMenu = () => {
         this.setState({
             show_menu: !this.state.show_menu
         })
