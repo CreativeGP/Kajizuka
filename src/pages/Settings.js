@@ -5,7 +5,8 @@
  * A component for the configuration page.
  */
 
- import React from 'react'
+import React from 'react'
+import Title from '../components/Title'
 
 export default class Settings extends React.Component {
 
