@@ -9,8 +9,26 @@ class App extends React.Component {
 
     constructor() {
         super()
+        
         this.state = { page: <Welcome switchPageCallback={e=> this.show(e)} /> }
-        this.settings = new Configure()
+        
+        this.settings = new Configure() // localStorageの内容をロード（初めて訪れる場合はデフォルト値をロード）
+
+        let check_local_storage = () => {
+            // JSONとして読み込む変数はカラリストで初期化しておかないとエラる
+            if (!localStorage.tasks) localStorage.tasks = '{}';
+            if (!localStorage.subjects) localStorage.subjects = '{}';
+        }
+        check_local_storage()
+        
+        if (!localStorage.visited) {
+            // 初めて訪れる場合
+            this.show('welcome')
+            
+            localStorage.visited = true
+        } else {
+            this.show(this.settings.scene)
+        }
     }
 
     setDisplayItem(value) {
