@@ -77,7 +77,6 @@ class AddTaskModal extends React.Component {
                 <Modal.Dialog>
                     <Modal.Header closeButton>
                         <Modal.Title>新しいタスクを追加</Modal.Title>
-                        <button type="button" className="close" data-dismiss="modal">&times</button>
                     </Modal.Header>
 
                     <Modal.Body>
