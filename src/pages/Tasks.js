@@ -9,6 +9,11 @@ import React from 'react'
 import { Modal, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 import Title from '../components/Title'
 
+
+/**
+ * 
+ * @prop {Object} title   
+ */
 const TaskListItem = props => {
     return (
         <li className="list-group-item">
@@ -23,6 +28,12 @@ const TaskListItem = props => {
 }
 
 
+/**
+ * @class
+ * @prop {Boolean} show Whether this is expected to be shown
+ * @prop {Function} handleClose A handler to catch modal closing
+ * @prop {Function} switchPageCallback - a page switching function that is a method of App class
+*/
 class AddTaskModal extends React.Component {
 
     constructor (props, context) {
@@ -30,6 +41,7 @@ class AddTaskModal extends React.Component {
 
         this.handleShow = this.handleShow.bind(this)
         this.handleClose = this.handleClose.bind(this)
+        this.addTask = this.addTask.bind(this)
         
         this.state = {
             show: this.props.show
@@ -43,6 +55,20 @@ class AddTaskModal extends React.Component {
     handleClose () {
         this.props.handleClose()
         this.setState({ show: false })
+    }
+
+    addTask () {
+        let data = JSON.parse(localStorage.tasks)
+        let id = ID()
+        data[id] = {
+            id: id,
+            title: $("#task-name").val(),
+            add: new Date(),
+            deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
+        }
+        localStorage.tasks = JSON.stringify(data)
+    
+        this.props.switchPageCallback('tasks')  // redraw
     }
     
     render () {
@@ -76,26 +102,12 @@ class AddTaskModal extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button bsStyle="secondary" data-dismiss="modal">Close</Button>
-                        <Button bsStyle="primary" data-dismiss="modal">追加</Button>
+                        <Button bsStyle="primary" data-dismiss="modal" onClick={this.addTask}>追加</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </Modal>
         )
     }
-}
-
-const add_task = () => {
-    let data = JSON.parse(localStorage.tasks)
-    let id = ID()
-    data[id] = {
-        id: id,
-        title: $("#task-name").val(),
-        add: new Date(),
-        deadline: $("#task-deadline").val().replace(/-/g, '/').substr(5) + "/" + $("#task-deadline").val().replace(/-/g, '/').substr(0, 4)
-    }
-    localStorage.tasks = JSON.stringify(data)
-
-    tasks()  // redraw
 }
 
 
