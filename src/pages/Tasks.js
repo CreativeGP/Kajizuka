@@ -44,6 +44,12 @@ class AddTaskModal extends React.Component {
     }
 
     addTask () {
+        let ID = () => {
+            // Math.random should be unique because of its seeding algorithm.
+            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+            // after the decimal.
+            return '_' + Math.random().toString(36).substr(2, 9)
+        }
         let data = JSON.parse(localStorage.tasks)
         let id = ID()
         data[id] = {
@@ -156,7 +162,7 @@ export default class Tasks extends React.Component {
                         </div>
                     </div>
                 </div>
-                <AddTaskModal />
+                <AddTaskModal switchPageCallback={this.props.switchPageCallback} />
             </div>
         )
     }
