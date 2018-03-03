@@ -13,7 +13,7 @@ module.exports = {
             }
         }]
     },
-    devtool: 'cheap-module-inline-source-map',
+    devtool: 'cheap-module-eval-source-map',
     resolve: {
         modules: ['node_modules']
     }
