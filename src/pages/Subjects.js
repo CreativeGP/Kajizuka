@@ -103,6 +103,50 @@ class AddSubjectModal extends React.Component {
     }
 }
 
+class DeleteSubjectModal extends React.Component {
+
+    constructor (props) {
+        super(props)
+        this.state = { id: '' }
+
+        this.changeId = this.changeId.bind(this)
+        this.componentDidUpdate = this.componentDidUpdate.bind(this)
+    }
+
+    changeId (id) {
+        this.setState({ id: id })
+    }
+
+    componentDidUpdate () {
+        this.props.onFinishRendering()
+    }
+
+    render () {
+        if (this.state.id === '') return <div style={{display:'none'}}></div>
+        let data = JSON.parse(localStorage.subjects)
+        if (!(this.state.id in data)) return <div style={{display:'none'}}></div>
+
+        return (
+            <div className="modal fade" id="deleteSubjectModal">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 id="deleteModal-title" className="modal-title">
+                                Subject "{data[this.state.id].title}" を削除
+                            </h4>
+                            <button type="button" className="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={e=> this.props.deleteSubjectHandler(this.state.id)}>削除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
 class SubjectListItem extends React.Component {
     constructor (props) {
         super(props)
@@ -127,6 +171,8 @@ class SubjectListItem extends React.Component {
                     <p className="card-text">
                         {this.props.subject.detail}
                     </p>
+
+                    <a className="clickable text-muted float-left" onClick={e=> this.props.handleDelete(this.props.subject)}><small>削除</small></a>
                     <small className="text-muted float-right">
                         追加日：{dateFormat.format(new Date(this.props.subject.add), 'MM/dd/yyyy')}
                     </small>
@@ -150,6 +196,10 @@ export default class Subjects extends React.Component {
 
     showAddSubjectModal () {
         $("#addSubjectModal").modal('show')
+    }
+
+    showDeleteSubjectModal () {
+        $("#deleteSubjectModal").modal('show')
     }
 
     addSubject () {
@@ -182,6 +232,14 @@ export default class Subjects extends React.Component {
         this.forceUpdate()
     }
 
+    deleteSubject (id) {
+        let data = JSON.parse(localStorage.subjects)
+        delete data[id]
+        localStorage.subjects = JSON.stringify(data)
+
+        this.forceUpdate()
+    }
+
     render () {
         let hash_map = function (hash, proc) {
             let result = []
@@ -209,7 +267,7 @@ export default class Subjects extends React.Component {
                         {hash_get_values(JSON.parse(localStorage.subjects))
                             .sort((a, b) => (new Date(b.add))-(new Date(a.add)))
                             .map((subject)=> 
-                                    <SubjectListItem key={subject.id} subject={subject}
+                                    <SubjectListItem key={subject.id} subject={subject} handleDelete={subject=> this.delete_subject_modal.changeId(subject.id)}
                                         onClickToEdit={subject=>{
                                             // ここでEditSubjectModalを操作して再描画させる、再描画先のコードが、、、
                                             this.edit_subject_modal.changeId(subject.id)
@@ -222,6 +280,8 @@ export default class Subjects extends React.Component {
                 <AddSubjectModal addSubjectHandler={this.addSubject}/>
 
                 <EditSubjectModal onFinishRendering={/*ここになる*/()=> this.showEditSubjectModal()} editSubjectHandler={subject_id=> this.editSubject(subject_id)} ref={instance=> this.edit_subject_modal = instance} />
+                
+                <DeleteSubjectModal onFinishRendering={()=> this.showDeleteSubjectModal()} deleteSubjectHandler={subject_id=> this.deleteSubject(subject_id)} ref={instance=> this.delete_subject_modal = instance} />
             </div>
         )
     }
