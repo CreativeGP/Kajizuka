@@ -67,3 +67,7 @@ dl dt { font-size: 1.5em; }
     cursor: pointer;
     text-decoration: underline;
 }
+
+.done {
+    color: green;
+}
