@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Welcome from './src/pages/Welcome'
 import Tasks from './src/pages/Tasks'
 import Subjects from './src/pages/Subjects'
+import Ideas from './src/pages/Ideas'
 import Settings from './src/pages/Settings'
 import Configure from './src/utils/Configure'
 
@@ -50,6 +51,9 @@ class App extends React.Component {
             break
             case 'subjects':
             this.setState({ page: <Subjects switchPageCallback={e=> this.show(e)} /> })
+            break
+            case 'ideas':
+            this.setState({ page: <Ideas switchPageCallback={e=> this.show(e)} /> })
             break
             default: this.setState({ page: <subjects switchPageCallback={e=> this.show(e)} /> })
         }
