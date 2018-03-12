@@ -24,6 +24,7 @@ class IdeaCategory extends React.Component {
         super(props)
 
         this.addNewItem = this.addNewItem.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
     }
 
     addNewItem () {
@@ -32,7 +33,13 @@ class IdeaCategory extends React.Component {
         data[this.props.category_id].content[id] = 'New item'
         localStorage.ideas = JSON.stringify(data)
 
-        this.froceUpdate()
+        this.forceUpdate()
+    }
+
+    componentDidMount () {
+        $(".title").change(e => {
+            console.log(e)
+        })
     }
 
     render () {
@@ -40,7 +47,7 @@ class IdeaCategory extends React.Component {
         let data = JSON.parse(localStorage.ideas)
 
         for (let key in data[this.props.category_id].content) {
-            content.push(<li class="list-group-item">{data[this.props.category_id].content[key]}</li>)
+            content.push(<li className="title list-group-item" id={this.props.category_id+"_title"} contentEditable>{data[this.props.category_id].content[key]}</li>)
         }
 
         return (
