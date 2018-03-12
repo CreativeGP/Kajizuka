@@ -55,6 +55,11 @@ class IdeaCategory extends React.Component {
                 localStorage.ideas = JSON.stringify(data)
             })
         })
+
+        document.getElementById(this.props.category_id+"_title").addEventListener('input', e => {
+            data[this.props.category_id].title = e.target.innerText
+            localStorage.ideas = JSON.stringify(data)
+        })
     }
 
     render () {
@@ -72,7 +77,7 @@ class IdeaCategory extends React.Component {
 
         return (
             <div className="col-md-4 col-sm-6">
-                <lead>{data[this.props.category_id].title}</lead>
+                <lead id={this.props.category_id+"_title"} contentEditable>{data[this.props.category_id].title}</lead>
                 <ul className="list-group">
                     {content}
                     <li className="list-group-item list-group-item-action clickable" onClick={this.addNewItem}>新しい項目を追加</li>
