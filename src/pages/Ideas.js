@@ -10,6 +10,13 @@ import React from 'react'
 import { dateFormat } from '../utils/DateFormat'
 import Title from '../components/Title'
 
+let ID = () => {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9)
+}
+
 
 class IdeaCategory extends React.Component {
 
@@ -20,7 +27,12 @@ class IdeaCategory extends React.Component {
     }
 
     addNewItem () {
+        let data = JSON.parse(localStorage.ideas)
+        let id = ID()
+        data[this.props.category_id].content[id] = 'New item'
+        localStorage.ideas = JSON.stringify(data)
 
+        this.froceUpdate()
     }
 
     render () {
@@ -54,13 +66,6 @@ export default class Ideas extends React.Component {
 
 
     addCategory () {
-        let ID = () => {
-            // Math.random should be unique because of its seeding algorithm.
-            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-            // after the decimal.
-            return '_' + Math.random().toString(36).substr(2, 9)
-        }
-
         let data = JSON.parse(localStorage.ideas)
         let id = ID()
         data[id] = {
