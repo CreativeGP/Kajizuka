@@ -11,17 +11,91 @@ import { dateFormat } from '../utils/DateFormat'
 import Title from '../components/Title'
 
 
+class IdeaCategory extends React.Component {
+
+    constructor (props) {
+        super(props)
+
+        this.addNewItem = this.addNewItem.bind(this)
+    }
+
+    addNewItem () {
+
+    }
+
+    render () {
+        let content = []
+        let data = JSON.parse(localStorage.ideas)
+
+        for (let key in data[this.props.category_id].content) {
+            content.push(<li class="list-group-item">{data[this.props.category_id].content[key]}</li>)
+        }
+
+        return (
+            <div className="col-md-4 col-sm-6">
+                <lead>{data[this.props.category_id].title}</lead>
+                <ul className="list-group">
+                    {content}
+                    <li className="list-group-item list-group-item-action clickable" onClick={this.addNewItem}>新しい項目を追加</li>
+                </ul>
+            </div>
+        )
+    }
+} 
+
+
 export default class Ideas extends React.Component {
 
     constructor (props) {
         super(props)
+
+        this.addCategory = this.addCategory.bind(this)
+    }
+
+
+    addCategory () {
+        let ID = () => {
+            // Math.random should be unique because of its seeding algorithm.
+            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+            // after the decimal.
+            return '_' + Math.random().toString(36).substr(2, 9)
+        }
+
+        let data = JSON.parse(localStorage.ideas)
+        let id = ID()
+        data[id] = {
+            title: 'New category',
+            content: {}
+        }
+        localStorage.ideas = JSON.stringify(data)
+
+        // ステートを直接変更するわけではないので自動描画されないので関数を呼んで再描画
+        this.forceUpdate();
     }
     
 
     render () {
+        let content = []
+
+        for (let key in JSON.parse(localStorage.ideas)) {
+            content.push(<IdeaCategory category_id={key} key={key} />)
+        }
+
         return (
             <div>
                 <Title switchPageCallback={this.props.switchPageCallback} pageName="Ideas" />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <h3 className="float-left">あなたのIdea（やりたいこと・目標・メモ）</h3>
+                            <button type="button" className='btn btn-success float-right' onClick={this.addCategory}>新たなカテゴリを追加</button>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {content}
+                    </div>
+                </div>
             </div>
         )
     }
