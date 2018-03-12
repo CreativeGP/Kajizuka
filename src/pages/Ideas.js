@@ -24,6 +24,7 @@ class IdeaCategory extends React.Component {
         super(props)
 
         this.addNewItem = this.addNewItem.bind(this)
+        this.deleteItem = this.deleteItem.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
     }
 
@@ -36,9 +37,23 @@ class IdeaCategory extends React.Component {
         this.forceUpdate()
     }
 
+    deleteItem (id) {
+        let data = JSON.parse(localStorage.ideas)
+        delete data[this.props.category_id].content[id]
+        localStorage.ideas = JSON.stringify(data)
+
+        this.forceUpdate()
+    }
+
     componentDidMount () {
-        $(".title").change(e => {
-            console.log(e)
+        let data = JSON.parse(localStorage.ideas)
+        let titles = document.querySelectorAll(".content")
+        Array.prototype.map.call(titles, elm => {
+            elm.addEventListener('input', e => {
+                let item_id = e.target.id.substr(0, 10)
+                data[this.props.category_id].content[item_id] = e.target.innerText
+                localStorage.ideas = JSON.stringify(data)
+            })
         })
     }
 
@@ -47,7 +62,12 @@ class IdeaCategory extends React.Component {
         let data = JSON.parse(localStorage.ideas)
 
         for (let key in data[this.props.category_id].content) {
-            content.push(<li className="title list-group-item" id={this.props.category_id+"_title"} contentEditable>{data[this.props.category_id].content[key]}</li>)
+            content.push(
+                <div className="list-group-item">
+                    <div className="float-right text-muted text-center align-middle clickable" onClick={e=> this.deleteItem(key)}>×</div>
+                    <div className="content" id={key+"_content"} style={{padding: '10px 0px'}} contentEditable>{data[this.props.category_id].content[key]}</div>
+                </div>
+            )
         }
 
         return (
