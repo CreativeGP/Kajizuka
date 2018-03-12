@@ -20,6 +20,7 @@ class App extends React.Component {
             // JSONとして読み込む変数はカラリストで初期化しておかないとエラる
             if (!localStorage.tasks) localStorage.tasks = '{}';
             if (!localStorage.subjects) localStorage.subjects = '{}';
+            if (!localStorage.ideas) localStorage.ideas = '{}';
         }
         check_local_storage()
 

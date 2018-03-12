@@ -11,3 +11,18 @@ import { dateFormat } from '../utils/DateFormat'
 import Title from '../components/Title'
 
 
+export default class Ideas extends React.Component {
+
+    constructor (props) {
+        super(props)
+    }
+    
+
+    render () {
+        return (
+            <div>
+                <Title switchPageCallback={this.props.switchPageCallback} pageName="Ideas" />
+            </div>
+        )
+    }
+}
