@@ -45,6 +45,8 @@ class IdeaCategory extends React.Component {
         this.forceUpdate()
     }
 
+    
+
     componentDidMount () {
         let data = JSON.parse(localStorage.ideas)
         let titles = document.querySelectorAll(".content")
@@ -76,8 +78,9 @@ class IdeaCategory extends React.Component {
         }
 
         return (
-            <div className="col-md-4 col-sm-6">
-                <lead id={this.props.category_id+"_title"} contentEditable>{data[this.props.category_id].title}</lead>
+            <div className="col-xl-4 col-lg-6" style={{marginTop: '30px'}}>
+                <a className="float-right text-muted clickable" onClick={e=> this.props.deleteCategoryHandler(this.props.category_id)}>削除</a> 
+                <h4 id={this.props.category_id+"_title"} contentEditable><strong>{data[this.props.category_id].title}</strong></h4>
                 <ul className="list-group">
                     {content}
                     <li className="list-group-item list-group-item-action clickable" onClick={this.addNewItem}>新しい項目を追加</li>
@@ -93,6 +96,7 @@ export default class Ideas extends React.Component {
     constructor (props) {
         super(props)
 
+        this.deleteCategory = this.deleteCategory.bind(this)
         this.addCategory = this.addCategory.bind(this)
     }
 
@@ -109,13 +113,21 @@ export default class Ideas extends React.Component {
         // ステートを直接変更するわけではないので自動描画されないので関数を呼んで再描画
         this.forceUpdate();
     }
+
+    deleteCategory (id) {
+        let data = JSON.parse(localStorage.ideas)
+        delete data[id]
+        localStorage.ideas = JSON.stringify(data)
+
+        this.forceUpdate()
+    }
     
 
     render () {
         let content = []
 
         for (let key in JSON.parse(localStorage.ideas)) {
-            content.push(<IdeaCategory category_id={key} key={key} />)
+            content.push(<IdeaCategory category_id={key} key={key} deleteCategoryHandler={this.deleteCategory}/>)
         }
 
         return (
