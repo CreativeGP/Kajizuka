@@ -12,7 +12,10 @@ class App extends React.Component {
     constructor() {
         super()
 
-        this.state = { page: <Welcome switchPageCallback={e=> this.show(e)} /> }
+        this.state = { page: '' }
+        this.show = this.show.bind(this)
+        this.setDisplayItem = this.setDisplayItem.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
 
         this.settings = new Configure() // localStorageの内容をロード（初めて訪れる場合はデフォルト値をロード）
 
@@ -23,14 +26,16 @@ class App extends React.Component {
             if (!localStorage.ideas) localStorage.ideas = '{}';
         }
         check_local_storage()
+    }
 
+    componentDidMount () {
         if (!localStorage.visited) {
             // 初めて訪れる場合
             this.show('welcome')
 
             localStorage.visited = true
         } else {
-            this.show(this.settings.scene)
+            this.show(localStorage.scene)
         }
     }
 
@@ -58,7 +63,6 @@ class App extends React.Component {
             break
             default: this.setState({ page: <subjects switchPageCallback={e=> this.show(e)} /> })
         }
-        this.forceUpdate()
     }
 
     render () {
