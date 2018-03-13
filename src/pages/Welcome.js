@@ -35,11 +35,11 @@ export default class Welcome extends React.Component {
                                     <p>あなたの情報をサーバーに保存しないので安全です。全ての作業はあなたのブラウザ上で完結します。</p>
                                 </div>
                                 <div className="col-md-6 col-lg-3 topic-panel">
-                                    <lead><strong>共有可能</strong></lead>
+                                    <lead><strong>共有可能 /UNDER DEVELOPMENT/</strong></lead>
                                     <p>SNSに進捗を投稿したいと思った時にも簡単に共有することができます。</p>
                                 </div>
                                 <div className="col-md-6 col-lg-3 topic-panel">
-                                    <lead><strong>フルキーボード操作可能</strong></lead>
+                                    <lead><strong>フルキーボード操作可能 /UNDER DEVELOPMENT/</strong></lead>
                                     <p>キーボードで素早く操作することもできるので手軽に操作することができます。</p>
                                 </div>
                             </div>
