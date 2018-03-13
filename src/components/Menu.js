@@ -23,7 +23,7 @@ export default class Menu extends React.Component {
         return (  
             // TODO: react-bootstrapを使ってみてもいいかも
             <div id="menu" style={my_style} className="col-sm-12 hidden-sm-down">
-                <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('timeline')}>Timeline</button>
+                {/* <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('timeline')}>Timeline</button> */}
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('tasks')}>Tasks</button>
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('subjects')}>Subjects</button>
                 <button type="button" className="btn btn-link" onClick={e=> this.props.switchPageCallback('ideas')}>Ideas</button>
