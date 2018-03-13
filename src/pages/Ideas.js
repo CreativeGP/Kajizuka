@@ -48,10 +48,10 @@ class IdeaCategory extends React.Component {
     
 
     componentDidMount () {
-        let data = JSON.parse(localStorage.ideas)
         let titles = document.querySelectorAll(".content")
         Array.prototype.map.call(titles, elm => {
             elm.addEventListener('input', e => {
+                let data = JSON.parse(localStorage.ideas)
                 let item_id = e.target.id.substr(0, 10)
                 data[this.props.category_id].content[item_id] = e.target.innerText
                 localStorage.ideas = JSON.stringify(data)
@@ -59,6 +59,7 @@ class IdeaCategory extends React.Component {
         })
 
         document.getElementById(this.props.category_id+"_title").addEventListener('input', e => {
+            let data = JSON.parse(localStorage.ideas)
             data[this.props.category_id].title = e.target.innerText
             localStorage.ideas = JSON.stringify(data)
         })
