@@ -17,6 +17,38 @@ let ID = () => {
     return '_' + Math.random().toString(36).substr(2, 9)
 }
 
+class IdeaItem extends React.Component {
+
+    constructor (props) {
+        super (props)
+
+        this.state = {
+            textValue: this.props.textValue
+        }
+
+        this.save = this.save.bind(this)
+    }
+
+    save (e) {
+        let data = JSON.parse(localStorage.ideas)        
+        data[this.props.category_id].content[this.props.id] = e.target.innerText;
+        localStorage.ideas = JSON.stringify(data)
+
+        // this.setState({
+        //     textValue: e.target.innerText
+        // })
+    }
+
+    render () {
+        return (
+            <div className="list-group-item">
+                <div className="float-right text-muted text-center align-middle clickable" onClick={e=> this.props.deleteItemHandler(this.props.id)}>×</div>
+                <div className="content" id={this.props.id+"_content"} style={{padding: '10px 0px'}} onInput={this.save} contentEditable>{this.state.textValue}</div>
+            </div>
+        )
+    }
+}
+
 
 class IdeaCategory extends React.Component {
 
@@ -25,7 +57,7 @@ class IdeaCategory extends React.Component {
 
         this.addNewItem = this.addNewItem.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
-        this.componentDidMount = this.componentDidMount.bind(this)
+        this.componentDidUpdate = this.componentDidUpdate.bind(this)
     }
 
     addNewItem () {
@@ -45,19 +77,7 @@ class IdeaCategory extends React.Component {
         this.forceUpdate()
     }
 
-    
-
-    componentDidMount () {
-        let titles = document.querySelectorAll(".content")
-        Array.prototype.map.call(titles, elm => {
-            elm.addEventListener('input', e => {
-                let data = JSON.parse(localStorage.ideas)
-                let item_id = e.target.id.substr(0, 10)
-                data[this.props.category_id].content[item_id] = e.target.innerText
-                localStorage.ideas = JSON.stringify(data)
-            })
-        })
-
+    componentDidUpdate () {        
         document.getElementById(this.props.category_id+"_title").addEventListener('input', e => {
             let data = JSON.parse(localStorage.ideas)
             data[this.props.category_id].title = e.target.innerText
@@ -71,10 +91,7 @@ class IdeaCategory extends React.Component {
 
         for (let key in data[this.props.category_id].content) {
             content.push(
-                <div className="list-group-item">
-                    <div className="float-right text-muted text-center align-middle clickable" onClick={e=> this.deleteItem(key)}>×</div>
-                    <div className="content" id={key+"_content"} style={{padding: '10px 0px'}} contentEditable>{data[this.props.category_id].content[key]}</div>
-                </div>
+                <IdeaItem id={key} category_id={this.props.category_id} deleteItemHandler={id=> this.deleteItem(id)} textValue={data[this.props.category_id].content[key]}/>
             )
         }
 
